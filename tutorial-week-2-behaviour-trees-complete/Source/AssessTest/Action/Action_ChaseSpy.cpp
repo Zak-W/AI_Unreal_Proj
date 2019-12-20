@@ -32,7 +32,7 @@ BEHAVIOUR_STATUS Action_ChaseSpy::Update()
 	TArray<AActor*> aFoundAgents;
 	UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), AAIAgent::StaticClass(), aFoundAgents);
 
-	AActor* pTarget;
+	AActor* pTarget = Cast<AActor>(GetOwner());
 
 	for (int i = 0; i < aFoundAgents.Num(); ++i)
 	{
@@ -43,7 +43,7 @@ BEHAVIOUR_STATUS Action_ChaseSpy::Update()
 		}
 	}
 
-	if (pTarget)
+	if (pTarget->ActorHasTag("Spy"))
 	{
 		GetOwner()->SetTargetActor(pTarget);
 		return SUCCESS;

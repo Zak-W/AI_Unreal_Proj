@@ -27,10 +27,6 @@ BEHAVIOUR_STATUS Action_MoveToTarget::Update()
 		{
 			UAIBlueprintHelperLibrary::SimpleMoveToActor(pAIController, GetOwner()->GetTargetActor());
 
-			if (GetOwner()->HasBeenBitten())
-			{
-				return FAILURE;
-			}
 			if (pAIController->GetMoveStatus() == EPathFollowingStatus::Moving)
 			{
 				return RUNNING;

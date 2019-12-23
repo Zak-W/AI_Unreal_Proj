@@ -4,9 +4,9 @@
 #include "Node.h"
 
 class AAIAgent;
-class AIPerception;
 class AActor;
-class FAIStimulus;
+struct FAIStimulus;
+class UAIPerceptionComponent;
 
 class ASSESSTEST_API Condition_CanISeeGuard : public Node
 {

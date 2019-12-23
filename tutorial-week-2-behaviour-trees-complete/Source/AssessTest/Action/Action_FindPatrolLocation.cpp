@@ -37,7 +37,7 @@ BEHAVIOUR_STATUS Action_FindPatrolLocation::Update()
 		while (pChosenTargetPoint == nullptr)
 		{
 			int iIndex = FMath::RandRange(0, Waypoints.Num() - 1);
-			if (FVector::Dist(Waypoints[iIndex]->GetActorLocation(), GetOwner()->Get_PatrolCentre()) < m_fPatrolRadius)
+			if (FVector::Dist(Waypoints[iIndex]->GetActorLocation(), GetOwner()->GetPatrolCentre()) < m_fPatrolRadius)
 			{
 				pChosenTargetPoint = Cast<ATargetPoint>(Waypoints[iIndex]);
 			}

@@ -38,35 +38,19 @@ public:
 	AActor* GetTargetActor() { return m_pTargetActor; }
 	void SetTargetActor(AActor* a_pTargetActor) { m_pTargetActor = a_pTargetActor; }
 
-	bool IsInfected() { return m_bIsInfected; }
-	void SetInfected() { m_bHasBeenBitten = true; }
-
-	bool HasBeenBitten()
-	{
-		if (m_bHasBeenBitten && !m_bIsInfected)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	void SetMutated() { m_bHasMutated = true; m_bIsInfected = true; m_bHasBeenBitten = false; }
-	bool GetMutated() { return m_bHasMutated; }
-
-	FVector Get_PatrolCentre() { return m_fVPatrolCentre; }
+	FVector GetPatrolCentre() { return m_fVPatrolCentre; }
+	bool GetIsGuard() { return m_bIsGuard; }
 
 private:
 	// create trigger capsule
 	UPROPERTY(VisibleAnywhere, Category = "Trigger Capsule")
 		class UCapsuleComponent* m_pTriggerCapsule;
 
-	UPROPERTY(EditAnywhere, Category = "Zombie")
-		bool m_bIsInfected;
-
-	bool m_bHasBeenBitten;
-	bool m_bHasMutated;
+	UPROPERTY(EditAnywhere, Category = "Guard")
+		bool m_bIsGuard;
 
 	BehaviourTree* m_pBehaviourTree;
 	AActor* m_pTargetActor;
 	FVector m_fVPatrolCentre;
+	UMaterialInstanceDynamic* m_pDynamicMaterial;
 };

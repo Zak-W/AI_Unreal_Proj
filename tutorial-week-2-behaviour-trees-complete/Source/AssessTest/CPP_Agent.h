@@ -10,7 +10,7 @@
 class Behaviour;
 
 UCLASS()
-class UE4STATEMACHINE_API ACPP_Agent : public ACharacter
+class ASSESSTEST_API ACPP_Agent : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -25,9 +25,6 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	bool GetInfectedStatus();
 	void SetInfectedStatus(bool a_bTrue);

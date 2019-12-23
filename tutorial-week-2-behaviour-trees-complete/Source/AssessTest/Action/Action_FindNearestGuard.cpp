@@ -1,5 +1,5 @@
 // This file's header
-#include "Action_FindNearestTarget.h"
+#include "Action_FindNearestGuard.h"
 
 // Includes
 #include "AIAgent.h"
@@ -12,16 +12,15 @@ const float fCOLOUR_CHANGE_RATE = 0.001f;
 // Typedef
 typedef Node PARENT;
 
-Action_FindNearestTarget::Action_FindNearestTarget(AAIAgent* a_pOwner) : PARENT(a_pOwner)
-{
-	
-}
-
-Action_FindNearestTarget::~Action_FindNearestTarget()
+Action_FindNearestGuard::Action_FindNearestGuard(AAIAgent * a_pOwner) : PARENT(a_pOwner)
 {
 }
 
-BEHAVIOUR_STATUS Action_FindNearestTarget::Update()
+Action_FindNearestGuard::~Action_FindNearestGuard()
+{
+}
+
+BEHAVIOUR_STATUS Action_FindNearestGuard::Update()
 {
 	// Null check
 	if (!GetOwner())
@@ -46,12 +45,16 @@ BEHAVIOUR_STATUS Action_FindNearestTarget::Update()
 		if (aFoundAgents[i]->GetUniqueID() != GetOwner()->GetUniqueID())
 		{
 			AAIAgent* pCurrentAgent = Cast<AAIAgent>(aFoundAgents[i]);;
-			float fDistanceBetween = FVector::Dist(vCurrentPos, aFoundAgents[i]->GetActorLocation());
-			if (fDistanceBetween < fNearestAgentDistance)
+			if (pCurrentAgent->GetOwner()->ActorHasTag("Guard"))
 			{
-				fNearestAgentDistance = fDistanceBetween;
-				pTargetAgent = pCurrentAgent;
+				float fDistanceBetween = FVector::Dist(vCurrentPos, aFoundAgents[i]->GetActorLocation());
+				if (fDistanceBetween < fNearestAgentDistance)
+				{
+					fNearestAgentDistance = fDistanceBetween;
+					pTargetAgent = pCurrentAgent;
+				}
 			}
+
 		}
 	}
 
@@ -64,6 +67,4 @@ BEHAVIOUR_STATUS Action_FindNearestTarget::Update()
 	{
 		return FAILURE;
 	}
-
-	
 }

@@ -5,14 +5,13 @@
 #include "Node.h"
 
 // Mutate class
-class ASSESSTEST_API Action_BiteActor : public Node
+class ASSESSTEST_API Action_FindNearestGuard : public Node
 {
 public:
-	Action_BiteActor(AAIAgent* a_pOwner);
-	~Action_BiteActor();
+	Action_FindNearestGuard(AAIAgent* a_pOwner);
+	~Action_FindNearestGuard();
 
 	BEHAVIOUR_STATUS Update();
 
 private:
-	
 };

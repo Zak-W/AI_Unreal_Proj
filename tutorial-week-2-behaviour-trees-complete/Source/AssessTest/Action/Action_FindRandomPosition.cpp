@@ -25,13 +25,6 @@ BEHAVIOUR_STATUS Action_FindRandomPosition::Update()
 		return FAILURE; // Early out
 	}
 	AAIAgent* pAgent = Cast<AAIAgent>(GetOwner());
-	if (pAgent)
-	{
-		if (pAgent->IsInfected())
-		{
-			return FAILURE;
-		}
-	}
 
 	TArray<AActor*> Waypoints;
 	UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), ATargetPoint::StaticClass(), Waypoints);

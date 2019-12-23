@@ -5,6 +5,8 @@
 #include "AIController.h"
 #include "BehaviourTree.h"
 #include "Engine/Classes/Components/CapsuleComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "Engine/Classes/Components/SkeletalMeshComponent.h"
 
 // Sets default values
 AAIAgent::AAIAgent()
@@ -28,10 +30,29 @@ AAIAgent::AAIAgent()
 void AAIAgent::BeginPlay()
 {
 	Super::BeginPlay();
-	if (m_bIsInfected)
+	if (m_bIsGuard)
 	{
-		m_bIsInfected = false;
-		m_bHasBeenBitten = true;
+		USkeletalMeshComponent* pMesh = GetMesh();
+		if (pMesh)
+		{
+			UMaterialInterface* pMaterial = pMesh->GetMaterial(0);
+			if (pMaterial)
+			{
+				m_pDynamicMaterial = UMaterialInstanceDynamic::Create(pMaterial, GetOwner());
+				pMesh->SetMaterial(0, m_pDynamicMaterial);
+
+				// Get the existing colour from our dynamic macterial
+				FLinearColor xCurrentColour;
+				m_pDynamicMaterial->GetVectorParameterValue(FMaterialParameterInfo("BodyColor"), xCurrentColour);
+
+				// Add a little something to our green channel
+				float fRed = xCurrentColour.R + 1.0f;
+				float fGreen = xCurrentColour.G - 1.0f;
+				float fBlue = xCurrentColour.B - 1.0f;
+
+				m_pDynamicMaterial->SetVectorParameterValue("BodyColor", FLinearColor(fRed, fGreen, fBlue));
+			}
+		}
 	}
 }
 
@@ -59,12 +80,4 @@ void AAIAgent::PostInitializeComponents()
 
 void AAIAgent::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp)
-	{
-		AAIAgent* pOtherAgent = Cast<AAIAgent>(OtherActor);
-		if (pOtherAgent && pOtherAgent->IsInfected())
-		{
-			SetInfected();
-		}
-	}
 }

@@ -45,12 +45,6 @@ void ACPP_Agent::Tick(float DeltaTime)
 	}
 }
 
-// Called to bind functionality to input
-void ACPP_Agent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
 bool ACPP_Agent::GetInfectedStatus()
 {
 	return m_bInfected;

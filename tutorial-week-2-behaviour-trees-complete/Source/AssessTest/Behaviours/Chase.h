@@ -3,12 +3,13 @@
 #include "Behaviour.h"
 
 class ACPP_Agent;
+class AAIAgent;
 
 enum CHASE_STATE
 {
-	MUTATE,
 	FIND_NEAREST_TARGET,
-	MOVE_TO_TARGET
+	MOVE_TO_TARGET,
+	BROADCAST_ALARM
 };
 
 class Chase : public Behaviour
@@ -21,10 +22,11 @@ public:
 	Behaviour* CheckConditions();
 
 private:
-	void CreateDynamicMaterial(ACPP_Agent* pOwner);
 
 	CHASE_STATE m_eCurrentChaseState;
 	UMaterialInstanceDynamic* m_pDynamicMaterial;
+
+	float mfBroadcastRange = 900.0f; // max broadcast distance
 
 	AActor* m_pTargetActor;//Stores the actor that we are chasing
 };

@@ -39,6 +39,7 @@ public:
 	void SetTargetActor(AActor* a_pTargetActor) { m_pTargetActor = a_pTargetActor; }
 
 	FVector GetPatrolCentre() { return m_fVPatrolCentre; }
+	void SetPatrolCentre(FVector a_newVec) { m_fVPatrolCentre = a_newVec; }
 	bool GetIsGuard() { return m_bIsGuard; }
 
 private:

@@ -12,10 +12,12 @@ ACPP_Agent::ACPP_Agent()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	m_pTriggerCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("BoxOverlapThingy"));
-	m_pTriggerCapsule->InitCapsuleSize(55.f, 96.0f);;
+	m_pTriggerCapsule->InitCapsuleSize(400.f, 600.0f);;
 	m_pTriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	m_pTriggerCapsule->SetupAttachment(RootComponent);
 	m_pTriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &ACPP_Agent::OnOverlapBegin);
+	m_pTriggerCapsule->OnComponentEndOverlap.AddDynamic(this, &ACPP_Agent::OnOverlapEnd);
+	mbCanSeeSpy = false;
 }
 
 // Called when the game starts or when spawned
@@ -45,24 +47,18 @@ void ACPP_Agent::Tick(float DeltaTime)
 	}
 }
 
-bool ACPP_Agent::GetInfectedStatus()
-{
-	return m_bInfected;
-}
-
-void ACPP_Agent::SetInfectedStatus(bool a_bTrue)
-{
-	m_bInfected = a_bTrue;
-}
-
 void ACPP_Agent::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp)
+	if (OtherActor->ActorHasTag("Spy"))
 	{
-		ACPP_Agent* pOtherAgent = Cast<ACPP_Agent>(OtherActor);
-		if (pOtherAgent && pOtherAgent->GetInfectedStatus())
-		{
-			SetInfectedStatus(true);
-		}
+		mbCanSeeSpy = true;
+	}
+}
+
+void ACPP_Agent::OnOverlapEnd(class UPrimitiveComponent * OverlappedComp, class AActor * OtherActor, class UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if (OtherActor->ActorHasTag("Spy"))
+	{
+		mbCanSeeSpy = false;
 	}
 }

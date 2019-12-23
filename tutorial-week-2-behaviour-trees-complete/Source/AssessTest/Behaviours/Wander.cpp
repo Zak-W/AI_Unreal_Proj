@@ -59,8 +59,8 @@ void Wander::Update()
 
 Behaviour* Wander::CheckConditions()
 {
-	// TODO - Check here to see if we've been bitten and return a new Chase behaviour
-	if (GetOwner()->GetInfectedStatus())
+	// If can see spy, new Chase
+	if (GetOwner()->GetCanSeeSpy())
 	{
 		return new Chase(GetOwner());
 	}

@@ -26,17 +26,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool GetInfectedStatus();
-	void SetInfectedStatus(bool a_bTrue);
+	bool GetCanSeeSpy() { return mbCanSeeSpy; }
 
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
 	Behaviour* m_pCurrentBehaviour;
 	// create trigger capsule
 	UPROPERTY(EditAnywhere, Category = "Trigger Capsule")
 		class UCapsuleComponent* m_pTriggerCapsule;
-	UPROPERTY(EditAnywhere)
-		bool m_bInfected = false;//Tells us whether the agent is infected or not
+	bool mbCanSeeSpy;
 };

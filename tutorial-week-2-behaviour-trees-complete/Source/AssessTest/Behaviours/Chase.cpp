@@ -5,10 +5,11 @@
 #include "Engine/Classes/Components/SkeletalMeshComponent.h"
 #include "Classes/Blueprint/AIBlueprintHelperLibrary.h"
 #include "Engine/Classes/Kismet/GameplayStatics.h"
+#include "AIAgent.h"
 
 Chase::Chase(ACPP_Agent* pOwner) : Behaviour(pOwner)
 {
-	m_eCurrentChaseState = MUTATE;
+	m_eCurrentChaseState = FIND_NEAREST_TARGET;
 
 	// Create a dynamic material so we can change the colour later
 	CreateDynamicMaterial(pOwner);
@@ -18,13 +19,6 @@ void Chase::Update()
 {
 	switch (m_eCurrentChaseState)
 	{
-	case MUTATE:
-	{
-		// TODO - Change colour gradually over time then when at full, progress to FIND_NEAREST_TARGET
-		m_pDynamicMaterial->SetVectorParameterValue("BodyColor", FLinearColor(1.0f, 0.0f, 0.0f));
-
-		m_eCurrentChaseState = FIND_NEAREST_TARGET;
-	}
 	case FIND_NEAREST_TARGET:
 	{
 		TArray<AActor*> aFoundAgents;//To store list of all agents
@@ -37,7 +31,7 @@ void Chase::Update()
 		{
 			if (a_Actor)//Null check
 			{
-				if (Cast<ACPP_Agent>(a_Actor) != GetOwner() && Cast<ACPP_Agent>(a_Actor)->GetInfectedStatus() == false)//Check current loop actor is not self and not already infected
+				if (a_Actor->ActorHasTag("Spy"))//Check if Actor is Spy
 				{
 					float fThisDistance = FVector::Dist(GetOwner()->GetActorLocation(), a_Actor->GetActorLocation());//Get distance between two actors
 
@@ -62,14 +56,9 @@ void Chase::Update()
 
 			if (m_pTargetActor)//Null check
 			{
-				if (FVector::Dist(GetOwner()->GetActorLocation(), m_pTargetActor->GetActorLocation()) <= 100.0f)//If actor is close enough to target to bite them
+				if (FVector::Dist(GetOwner()->GetActorLocation(), m_pTargetActor->GetActorLocation()) <= 100.0f)//Seeker is in range
 				{
-					m_eCurrentChaseState = FIND_NEAREST_TARGET;
-				}
-
-				if (Cast<ACPP_Agent>(m_pTargetActor)->GetInfectedStatus())//If target has recently been infected
-				{
-					m_eCurrentChaseState = FIND_NEAREST_TARGET;//Find new target
+					m_eCurrentChaseState = BROADCAST_ALARM;
 				}
 			}
 			else
@@ -80,6 +69,31 @@ void Chase::Update()
 
 		break;
 	}
+	case BROADCAST_ALARM:
+	{
+		TArray<AActor*> aFoundAgents;//To store list of all agents
+		UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), ACPP_Agent::StaticClass(), aFoundAgents);//Get All agents
+
+		for (AActor* a_Actor : aFoundAgents)//Loop through actor list
+		{
+			if (a_Actor)//Null check
+			{
+				if (a_Actor->ActorHasTag("Guard"))//Check if Actor is Spy
+				{
+					float fThisDistance = FVector::Dist(GetOwner()->GetActorLocation(), a_Actor->GetActorLocation());//Get distance between two actors
+
+					if (fThisDistance <= mfBroadcastRange)//If closer than last broadcast range
+					{
+						AAIAgent* pAgent = Cast<AAIAgent>(a_Actor);
+						pAgent->SetPatrolCentre(GetOwner()->GetActorLocation());
+					}
+				}
+			}
+		}
+
+		m_eCurrentChaseState = FIND_NEAREST_TARGET;
+		break;
+	}
 	}
 }
 
@@ -88,21 +102,4 @@ Behaviour* Chase::CheckConditions()
 	// TODO - Check if we bit our target, if we have then die.
 
 	return nullptr;
-}
-
-void Chase::CreateDynamicMaterial(ACPP_Agent* pOwner)
-{
-	if (pOwner)
-	{
-		USkeletalMeshComponent* pMesh = pOwner->GetMesh();
-		if (pMesh)
-		{
-			UMaterialInterface* pMaterial = pMesh->GetMaterial(0);
-			if (pMaterial)
-			{
-				m_pDynamicMaterial = UMaterialInstanceDynamic::Create(pMaterial, GetOwner());
-				pMesh->SetMaterial(0, m_pDynamicMaterial);
-			}
-		}
-	}
 }

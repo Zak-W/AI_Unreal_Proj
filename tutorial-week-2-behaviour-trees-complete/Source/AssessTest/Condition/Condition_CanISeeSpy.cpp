@@ -27,7 +27,16 @@ Condition_CanISeeSpy::~Condition_CanISeeSpy()
 BEHAVIOUR_STATUS Condition_CanISeeSpy::Update()
 {
 	m_bCanSee = false;
-	m_pAIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &Condition_CanISeeSpy::HasSensedObject);
+	TArray<AActor*> paSensedActors;
+	m_pAIPerceptionComponent->GetCurrentlyPerceivedActors(nullptr, paSensedActors);
+	for (int i = 0; i < paSensedActors.Num(); ++i)
+	{
+		if (paSensedActors[i]->ActorHasTag("Spy"))
+		{
+			m_bCanSee = true;
+		}
+	}
+	//m_pAIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &Condition_CanISeeSpy::HasSensedObject);
 	if (m_bCanSee)
 	{
 		return SUCCESS;

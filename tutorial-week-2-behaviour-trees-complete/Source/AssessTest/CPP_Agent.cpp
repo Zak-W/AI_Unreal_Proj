@@ -12,11 +12,10 @@ ACPP_Agent::ACPP_Agent()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	m_pTriggerCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("BoxOverlapThingy"));
-	m_pTriggerCapsule->InitCapsuleSize(400.f, 600.0f);;
+	m_pTriggerCapsule->InitCapsuleSize(300.f, 200.0f);;
 	m_pTriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	m_pTriggerCapsule->SetupAttachment(RootComponent);
 	m_pTriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &ACPP_Agent::OnOverlapBegin);
-	m_pTriggerCapsule->OnComponentEndOverlap.AddDynamic(this, &ACPP_Agent::OnOverlapEnd);
 	mbCanSeeSpy = false;
 }
 
@@ -52,13 +51,5 @@ void ACPP_Agent::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class
 	if (OtherActor->ActorHasTag("Spy"))
 	{
 		mbCanSeeSpy = true;
-	}
-}
-
-void ACPP_Agent::OnOverlapEnd(class UPrimitiveComponent * OverlappedComp, class AActor * OtherActor, class UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
-{
-	if (OtherActor->ActorHasTag("Spy"))
-	{
-		mbCanSeeSpy = false;
 	}
 }

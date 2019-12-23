@@ -27,7 +27,16 @@ Condition_CanISeeGuard::~Condition_CanISeeGuard()
 BEHAVIOUR_STATUS Condition_CanISeeGuard::Update()
 {
 	m_bCanSee = false;
-	m_pAIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &Condition_CanISeeGuard::HasSensedObject);
+	TArray<AActor*> paSensedActors;
+	m_pAIPerceptionComponent->GetCurrentlyPerceivedActors(nullptr, paSensedActors);
+	for (int i = 0; i < paSensedActors.Num(); ++i)
+	{
+		if (paSensedActors[i]->ActorHasTag("Guard"))
+		{
+			m_bCanSee = true;
+		}
+	}
+	//m_pAIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &Condition_CanISeeGuard::HasSensedObject);
 	if (m_bCanSee)
 	{
 		return SUCCESS;

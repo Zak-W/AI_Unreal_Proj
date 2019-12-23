@@ -27,7 +27,16 @@ Condition_CanISeeGoal::~Condition_CanISeeGoal()
 BEHAVIOUR_STATUS Condition_CanISeeGoal::Update()
 {
 	m_bCanSee = false;
-	m_pAIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &Condition_CanISeeGoal::HasSensedObject);
+	TArray<AActor*> paSensedActors;
+	m_pAIPerceptionComponent->GetCurrentlyPerceivedActors(nullptr, paSensedActors);
+	for (int i = 0; i < paSensedActors.Num(); ++i)
+	{
+		if (paSensedActors[i]->ActorHasTag("Goal"))
+		{
+			m_bCanSee = true;
+		}
+	}
+	//m_pAIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &Condition_CanISeeGoal::HasSensedObject);
 	if (m_bCanSee)
 	{
 		return SUCCESS;

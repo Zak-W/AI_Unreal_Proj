@@ -18,6 +18,7 @@ class Decorator_Inverter;
 class Action_FindPatrolLocation;
 class Action_FindNearestGuard;
 class Action_FleeFromGuard;
+class Action_TargetGoal;
 class Action_ChaseSpy;
 
 // BehaviourTree class
@@ -31,14 +32,26 @@ public:
 
 private:
 	Selector* m_pRootSelector;
-	Sequence* m_pGuardSequence;
+	Sequence* m_pGuardSequencePatrol;
+	Sequence* m_pGuardSequenceChase;
+	Selector* m_pGuardBehaviourSelector;
+	Sequence* m_pSpySequenceWander;
+	Sequence* m_pSpySequenceFlee;
+	Sequence* m_pSpySequenceSeek;
+	Selector* m_pSpyBehaviourSelectorFlee;
+	Selector* m_pSpyBehaviourSelectorSeek;
+	Decorator_Inverter* m_pInverter;
 	Condition_HaveIArrived* m_pHaveIArrived;
+	Condition_CanISeeSpy* m_pCanSeeSpy;
+	Condition_CanISeeGuard* m_pCanSeeGuard;
+	Condition_CanISeeGoal* m_pCanSeeGoal;
 	Action_FindNearestTarget* m_pFindNearestTarget;
 	Action_MoveToTarget* m_pMovetoTarget;
-	Sequence* m_pSpySequence;
-	Action_FindRandomPosition* m_pFindRandomPosition;
-	Decorator_Inverter* m_pInverter;
-	Selector* m_pGuardSelector;
 	Action_FindPatrolLocation* m_pFindPatrol;
+	Action_FindNearestGuard* m_pFindGuard;
+	Action_TargetGoal* m_pTargetGoal;
+	Action_FleeFromGuard* m_pFleeGuard;
+	Action_ChaseSpy* m_pChaseSpy;
+	Action_FindRandomPosition* m_pFindRandomPosition;
 
 };

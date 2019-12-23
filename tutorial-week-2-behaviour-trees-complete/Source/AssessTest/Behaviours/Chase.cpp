@@ -5,14 +5,12 @@
 #include "Engine/Classes/Components/SkeletalMeshComponent.h"
 #include "Classes/Blueprint/AIBlueprintHelperLibrary.h"
 #include "Engine/Classes/Kismet/GameplayStatics.h"
+#include "Behaviours/Wander.h"
 #include "AIAgent.h"
 
 Chase::Chase(ACPP_Agent* pOwner) : Behaviour(pOwner)
 {
 	m_eCurrentChaseState = FIND_NEAREST_TARGET;
-
-	// Create a dynamic material so we can change the colour later
-	CreateDynamicMaterial(pOwner);
 }
 
 void Chase::Update()
@@ -99,7 +97,10 @@ void Chase::Update()
 
 Behaviour* Chase::CheckConditions()
 {
-	// TODO - Check if we bit our target, if we have then die.
-
+	//if cant see spy, return to wander.
+	if (GetOwner()->GetCanSeeSpy() == false)
+	{
+		return new Wander(GetOwner());
+	}
 	return nullptr;
 }

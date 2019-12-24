@@ -13,11 +13,7 @@ typedef Node PARENT;
 
 Condition_CanISeeGuard::Condition_CanISeeGuard(AAIAgent * a_pOwner) : PARENT(a_pOwner)
 {
-	AAIController* pAIController = Cast<AAIController>(GetOwner());
-	if (pAIController)//Null check
-	{
-  		m_pAIPerceptionComponent = pAIController->GetPerceptionComponent();
-	}
+	m_pAIPerceptionComponent = Cast<UAIPerceptionComponent>(GetOwner()->FindComponentByClass(UAIPerceptionComponent::StaticClass()));
 }
 
 Condition_CanISeeGuard::~Condition_CanISeeGuard()
@@ -31,7 +27,8 @@ BEHAVIOUR_STATUS Condition_CanISeeGuard::Update()
 	m_pAIPerceptionComponent->GetCurrentlyPerceivedActors(nullptr, paSensedActors);
 	for (int i = 0; i < paSensedActors.Num(); ++i)
 	{
-		if (paSensedActors[i]->ActorHasTag("Guard"))
+		AActor* pCurrentActor = paSensedActors[i];
+		if (pCurrentActor->ActorHasTag("Guard") || pCurrentActor->ActorHasTag("Seeker"))
 		{
 			m_bCanSee = true;
 		}

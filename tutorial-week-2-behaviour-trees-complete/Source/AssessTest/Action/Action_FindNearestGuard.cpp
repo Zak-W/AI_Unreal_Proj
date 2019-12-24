@@ -28,24 +28,24 @@ BEHAVIOUR_STATUS Action_FindNearestGuard::Update()
 		return FAILURE; // Early out
 	}
 
-	// Get all actors of type "AAIAgent"
+	// Get all actors
 	TArray<AActor*> aFoundAgents;
-	UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), AAIAgent::StaticClass(), aFoundAgents);
+	UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), AActor::StaticClass(), aFoundAgents);
 
 	// Get this actor's current position
 	FVector vCurrentPos = GetOwner()->GetActorLocation();
 
 	// Get ready to cache our nearest distance and agent
 	float fNearestAgentDistance = TNumericLimits<float>::Max();
-	AAIAgent* pTargetAgent = nullptr;
+	AActor* pTargetAgent = nullptr;
 
 	for (int i = 0; i < aFoundAgents.Num(); ++i)
 	{
 		// Make sure we don't chase ourselves...
 		if (aFoundAgents[i]->GetUniqueID() != GetOwner()->GetUniqueID())
 		{
-			AAIAgent* pCurrentAgent = Cast<AAIAgent>(aFoundAgents[i]);;
-			if (pCurrentAgent->GetOwner()->ActorHasTag("Guard"))
+			AActor* pCurrentAgent = aFoundAgents[i];
+			if (pCurrentAgent->GetOwner()->ActorHasTag("Guard") || pCurrentAgent->GetOwner()->ActorHasTag("Seeker"))
 			{
 				float fDistanceBetween = FVector::Dist(vCurrentPos, aFoundAgents[i]->GetActorLocation());
 				if (fDistanceBetween < fNearestAgentDistance)

@@ -13,11 +13,7 @@ typedef Node PARENT;
 
 Condition_CanISeeGoal::Condition_CanISeeGoal(AAIAgent * a_pOwner) : PARENT(a_pOwner)
 {
-	AAIController* pAIController = Cast<AAIController>(GetOwner());
-	if (pAIController)//Null check
-	{
-  		m_pAIPerceptionComponent = pAIController->GetPerceptionComponent();
-	}
+	m_pAIPerceptionComponent = Cast<UAIPerceptionComponent>(GetOwner()->FindComponentByClass(UAIPerceptionComponent::StaticClass()));
 }
 
 Condition_CanISeeGoal::~Condition_CanISeeGoal()
@@ -31,7 +27,8 @@ BEHAVIOUR_STATUS Condition_CanISeeGoal::Update()
 	m_pAIPerceptionComponent->GetCurrentlyPerceivedActors(nullptr, paSensedActors);
 	for (int i = 0; i < paSensedActors.Num(); ++i)
 	{
-		if (paSensedActors[i]->ActorHasTag("Goal"))
+		AActor* pCurrentActor = paSensedActors[i];
+		if (pCurrentActor->ActorHasTag("Goal"))
 		{
 			m_bCanSee = true;
 		}

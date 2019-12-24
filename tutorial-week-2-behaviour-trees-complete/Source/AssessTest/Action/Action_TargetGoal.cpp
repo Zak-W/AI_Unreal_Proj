@@ -30,12 +30,18 @@ BEHAVIOUR_STATUS Action_TargetGoal::Update()
 
 	// Get all actors
 	TArray<AActor*> aFoundAgents;
-	UGameplayStatics::GetAllActorsWithTag(GetOwner()->GetWorld(), "Guard", aFoundAgents);
+	UGameplayStatics::GetAllActorsWithTag(GetOwner()->GetWorld(), "Goal", aFoundAgents);
 
 	//initialise to the first of the Tarray, should only be one anyway
-	AActor* pTarget = aFoundAgents[0];
+	AActor* pTarget = nullptr;
 
-	//if it did find the spy
+	//null check
+	if (aFoundAgents[0])
+	{
+		pTarget = aFoundAgents[0];
+	}
+
+	//if tag is goal, another null check
 	if (pTarget->ActorHasTag("Goal"))
 	{
 		GetOwner()->SetTargetActor(pTarget);

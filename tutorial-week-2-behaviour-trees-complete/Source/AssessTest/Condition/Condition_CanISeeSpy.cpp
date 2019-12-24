@@ -13,11 +13,7 @@ typedef Node PARENT;
 
 Condition_CanISeeSpy::Condition_CanISeeSpy(AAIAgent * a_pOwner) : PARENT(a_pOwner)
 {
-	AAIController* pAIController = Cast<AAIController>(GetOwner());
-	if (pAIController)//Null check
-	{
-  		m_pAIPerceptionComponent = pAIController->GetPerceptionComponent();
-	}
+	m_pAIPerceptionComponent = Cast<UAIPerceptionComponent>(GetOwner()->FindComponentByClass(UAIPerceptionComponent::StaticClass()));
 }
 
 Condition_CanISeeSpy::~Condition_CanISeeSpy()
@@ -31,8 +27,11 @@ BEHAVIOUR_STATUS Condition_CanISeeSpy::Update()
 	m_pAIPerceptionComponent->GetCurrentlyPerceivedActors(nullptr, paSensedActors);
 	for (int i = 0; i < paSensedActors.Num(); ++i)
 	{
-		if (paSensedActors[i]->ActorHasTag("Spy"))
+		AActor* pCurrentActor = paSensedActors[i];
+		if (pCurrentActor->ActorHasTag("Spy"))
 		{
+			AAIAgent* pAgent = GetOwner();
+			pAgent->SetPatrolCentre(pCurrentActor->GetActorLocation());
 			m_bCanSee = true;
 		}
 	}

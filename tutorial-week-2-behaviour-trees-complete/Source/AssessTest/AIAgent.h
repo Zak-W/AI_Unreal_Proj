@@ -31,10 +31,6 @@ public:
 
 	virtual void PostInitializeComponents() override;
 
-	// declare overlap begin function
-	UFUNCTION()
-		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
 	AActor* GetTargetActor() { return m_pTargetActor; }
 	void SetTargetActor(AActor* a_pTargetActor) { m_pTargetActor = a_pTargetActor; }
 

@@ -7,6 +7,7 @@
 #include "Engine/Classes/Components/CapsuleComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/Classes/Components/SkeletalMeshComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 AAIAgent::AAIAgent()
@@ -21,9 +22,6 @@ AAIAgent::AAIAgent()
 	m_pTriggerCapsule->InitCapsuleSize(55.f, 96.0f);;
 	m_pTriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	m_pTriggerCapsule->SetupAttachment(RootComponent);
-	m_pTriggerCapsule->OnComponentBeginOverlap.AddDynamic(this, &AAIAgent::OnOverlapBegin);
-
-	m_fVPatrolCentre = GetActorLocation();
 }
 
 // Called when the game starts or when spawned
@@ -45,14 +43,15 @@ void AAIAgent::BeginPlay()
 				FLinearColor xCurrentColour;
 				m_pDynamicMaterial->GetVectorParameterValue(FMaterialParameterInfo("BodyColor"), xCurrentColour);
 
-				// Add a little something to our green channel
-				float fRed = xCurrentColour.R + 1.0f;
-				float fGreen = xCurrentColour.G - 1.0f;
-				float fBlue = xCurrentColour.B - 1.0f;
+				// Make Guards Red
+				float fRed = xCurrentColour.R + 255.0f;
+				float fGreen = xCurrentColour.G - 255.0f;
+				float fBlue = xCurrentColour.B - 255.0f;
 
 				m_pDynamicMaterial->SetVectorParameterValue("BodyColor", FLinearColor(fRed, fGreen, fBlue));
 			}
 		}
+		m_fVPatrolCentre = GetActorLocation();
 	}
 }
 
@@ -76,8 +75,4 @@ void AAIAgent::PostInitializeComponents()
 
 	// Initialise our behaviour tree
 	m_pBehaviourTree = new BehaviourTree(this);
-}
-
-void AAIAgent::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
 }

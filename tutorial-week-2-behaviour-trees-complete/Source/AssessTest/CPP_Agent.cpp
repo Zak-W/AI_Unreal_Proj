@@ -11,7 +11,7 @@ ACPP_Agent::ACPP_Agent()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	m_pTriggerCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("BoxOverlapThingy"));
+	m_pTriggerCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("BoxOverlap"));
 	m_pTriggerCapsule->InitCapsuleSize(300.f, 200.0f);;
 	m_pTriggerCapsule->SetCollisionProfileName(TEXT("Trigger"));
 	m_pTriggerCapsule->SetupAttachment(RootComponent);

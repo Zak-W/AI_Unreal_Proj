@@ -15,5 +15,5 @@ public:
 
 private:
 
-	float m_fPatrolRadius = 300.0f;
+	float m_fPatrolRadius = 1000.0f;
 };

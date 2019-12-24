@@ -8,6 +8,10 @@
 #include "Engine/World.h"
 #include "Engine/TargetPoint.h"
 #include "Math/Vector.h"
+#include "Classes/Blueprint/AIBlueprintHelperLibrary.h"
+#include "Runtime/Engine/Classes/AI/NavigationSystemBase.h"
+#include "Runtime/NavigationSystem/Public/NavigationSystem.h"
+#include "Runtime/NavigationSystem/Public/AbstractNavData.h"
 
 // Typedef
 typedef Node PARENT;
@@ -28,29 +32,34 @@ BEHAVIOUR_STATUS Action_FindPatrolLocation::Update()
 	}
 	AAIAgent* pAgent = Cast<AAIAgent>(GetOwner());
 
-	TArray<AActor*> Waypoints;
-	UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), ATargetPoint::StaticClass(), Waypoints);
+	UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent(GetOwner()->GetWorld());//Get the current Navmesh system data
+	FVector vRandLoc = NavSys->GetRandomPointInNavigableRadius(GetOwner()->GetWorld(), GetOwner()->GetPatrolCentre(), m_fPatrolRadius);//Choose a random location on the navmesh
 
-	if (Waypoints.Num() > 0)
+	TArray<AActor*> pWaypoints;
+	UGameplayStatics::GetAllActorsOfClass(GetOwner()->GetWorld(), ATargetPoint::StaticClass(), pWaypoints);
+
+	// Get ready to cache our nearest distance and agent
+	float fNearestAgentDistance = TNumericLimits<float>::Max();
+	AActor* pTargetActor = nullptr;
+
+	for (int i = 0; i < pWaypoints.Num(); ++i)
 	{
-		ATargetPoint* pChosenTargetPoint = nullptr;
-		while (pChosenTargetPoint == nullptr)
+		ATargetPoint* pCurrentTarget = Cast<ATargetPoint>(pWaypoints[i]);
+		float fDistanceBetween = FVector::Dist(vRandLoc, pCurrentTarget->GetActorLocation());
+		if (fDistanceBetween < fNearestAgentDistance)
 		{
-			int iIndex = FMath::RandRange(0, Waypoints.Num() - 1);
-			if (FVector::Dist(Waypoints[iIndex]->GetActorLocation(), GetOwner()->GetPatrolCentre()) < m_fPatrolRadius)
-			{
-				pChosenTargetPoint = Cast<ATargetPoint>(Waypoints[iIndex]);
-			}
-		}
-
-
-		if (pChosenTargetPoint != nullptr)
-		{
-			GetOwner()->SetTargetActor(pChosenTargetPoint);
-
-			return SUCCESS;
+			fNearestAgentDistance = fDistanceBetween;
+			pTargetActor = pCurrentTarget;
 		}
 	}
 
-	return FAILURE;
+	if (pTargetActor)
+	{
+		GetOwner()->SetTargetActor(pTargetActor);
+		return SUCCESS;
+	}
+	else
+	{
+		return FAILURE;
+	}
 }

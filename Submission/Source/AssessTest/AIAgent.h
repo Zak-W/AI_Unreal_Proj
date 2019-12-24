@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <AIAgent.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <header file for creating an AI Agent that uses behaviour trees>
+////////////////////////////////////////////////////////////
 // Includes
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"

@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Action_TargetGoal.h>
+// Author:  <Zak Waters>  
+// Date Created: <20/12/2019> 
+// Brief:  <Code for moving toward the goal> 
+////////////////////////////////////////////////////////////
 // Includes
 #include "CoreMinimal.h"
 #include "Node.h"

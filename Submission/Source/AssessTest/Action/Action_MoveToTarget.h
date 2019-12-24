@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Action_MoveToTarget.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <header file for moving toward a location> 
+////////////////////////////////////////////////////////////
 // Includes
 #include "CoreMinimal.h"
 #include "Node.h"

@@ -1,4 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+////////////////////////////////////////////////////////////
+// File:  <Condition_HaveIArrived.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <header file for checking if the character has arrived>
+////////////////////////////////////////////////////////////
 
 #pragma once
 

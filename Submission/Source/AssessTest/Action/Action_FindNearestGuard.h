@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Action_FindNearestGuard.h>
+// Author:  <Zak Waters>  
+// Date Created: <15/12/2019> 
+// Brief:  <header file for finding closest guard agent> 
+////////////////////////////////////////////////////////////
 // Includes
 #include "CoreMinimal.h"
 #include "Node.h"

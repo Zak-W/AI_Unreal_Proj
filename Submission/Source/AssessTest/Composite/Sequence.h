@@ -1,5 +1,12 @@
 #pragma once
 
+////////////////////////////////////////////////////////////
+// File:  <Sequence.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <header file for the sequence part of a behaviour tree> 
+////////////////////////////////////////////////////////////
+
 // Includes
 #include "CoreMinimal.h"
 #include "Composite.h"

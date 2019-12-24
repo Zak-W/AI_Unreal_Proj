@@ -1,4 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+////////////////////////////////////////////////////////////
+// File:  <CPP_Agent.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/12/2019> 
+// Brief:  <header file for making a Finite State Machine AI> 
+////////////////////////////////////////////////////////////
 
 #pragma once
 

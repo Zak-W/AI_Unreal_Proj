@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Wander.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <header file for wandering in a state machine> 
+////////////////////////////////////////////////////////////
 #include "Behaviour.h"
 
 class ACPP_Agent;

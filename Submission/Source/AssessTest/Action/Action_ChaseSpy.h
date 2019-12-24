@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Action_ChaseSpy.h>
+// Author:  <Zak Waters>  
+// Date Created: <8/12/2019> 
+// Brief:  <header file for moving toward a spy agent> 
+////////////////////////////////////////////////////////////
 // Includes
 #include "CoreMinimal.h"
 #include "Node.h"

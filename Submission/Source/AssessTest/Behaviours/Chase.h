@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Chase.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <header file for chasing as a state in a state machine> 
+////////////////////////////////////////////////////////////
 #include "Behaviour.h"
 
 class ACPP_Agent;

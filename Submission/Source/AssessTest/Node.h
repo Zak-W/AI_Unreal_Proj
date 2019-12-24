@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////
+// File:  <Node.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/12/2019> 
+// Brief:  <header file for creating nodes that can be managed in a list for a behaviour tree> 
+////////////////////////////////////////////////////////////
 #pragma once
 
 // Includes

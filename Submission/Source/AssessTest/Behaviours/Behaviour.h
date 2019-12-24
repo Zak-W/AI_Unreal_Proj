@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Behaviour.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/11/2019> 
+// Brief:  <defining statemachine behaviours> 
+////////////////////////////////////////////////////////////
 #include "CPP_Agent.h"
 
 class Behaviour

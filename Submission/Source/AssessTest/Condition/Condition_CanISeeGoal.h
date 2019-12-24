@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////
+// File:  <Condition_CanISeeGoal.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/12/2019> 
+// Brief:  <header file for seeing the end goal for the spy> 
+////////////////////////////////////////////////////////////
 #pragma once
 
 #include "CoreMinimal.h"

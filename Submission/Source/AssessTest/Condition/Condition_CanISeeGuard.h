@@ -1,5 +1,10 @@
 #pragma once
-
+////////////////////////////////////////////////////////////
+// File:  <Condition_CanISeeGuard.h>
+// Author:  <Zak Waters>  
+// Date Created: <05/12/2019> 
+// Brief:  <header file for seeing a enemy guard> 
+////////////////////////////////////////////////////////////
 #include "CoreMinimal.h"
 #include "Node.h"
 
